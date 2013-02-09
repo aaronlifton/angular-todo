@@ -1,9 +1,24 @@
 'use strict';
 
+/* Shared functions */
+function randomString(length) {
+    var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+
+    if (!length) {
+        length = Math.floor(Math.random() * chars.length);
+    }
+
+    var str = '';
+    for (var i = 0; i < length; i++) {
+        str += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return str;
+}
+
 /* Controllers */
 
-function TodoCtrl($scope, $routeParams) {
-  $scope.todoText = $routeParams.hashTag;
+function TodoCtrl($scope) {
+  $scope.finishedTodo = false;
   
   $scope.todos = angular.fromJson(window.localStorage.todos) || [
     {id: 1, text:'learn angular', done: true},
@@ -12,21 +27,25 @@ function TodoCtrl($scope, $routeParams) {
   $scope.$watch('todosJson()', function(result) {
     window.localStorage.todos = result;
   });
+  
+  $scope.$watch('todos.length', function(length) {
+    if (length === 0 && $scope.finishedTodo === true) {
+      $scope.playVictorySound();
+    }
+  });
 
   $scope.todosJson = function() {
     return angular.toJson($scope.todos)
   };
 
   $scope.addTodo = function() {
-    $scope.todos.push({id: Math.floor(Math.random()*1000), text:$scope.todoText, done:false});
+    $scope.todos.push({id: randomString(5), text:$scope.todoText, done:false});
     $scope.todoText = '';
   };
 
   $scope.deleteTodo = function(todo) {
     $scope.todos.push.apply($scope.todos.splice($scope.todos.indexOf(todo), $scope.todos.length));
-    if ($scope.todos.length === 0) {
-      $scope.playVictorySound()
-    }
+    $scope.finishedTodo = true;
   }
 
   $scope.startEditing = function(todo) {
@@ -55,10 +74,7 @@ function TodoCtrl($scope, $routeParams) {
     angular.forEach(oldTodos, function(todo) {
       if (!todo.done) $scope.todos.push(todo);
     });
-
-    if ($scope.todos.length == 0) {
-      $scope.playVictorySound()
-    }
+    $scope.finishedTodo = true;
   };
 
   $scope.playVictorySound = function() {
