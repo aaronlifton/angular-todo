@@ -12,11 +12,9 @@ body {
   background-repeat: repeat-x;
 }
 
-.well {
-  background-color: #7ddad9;
-  opacity: 0.25;
+.danger {
+  color: #d35648;
 }
-
 .done-true {
   color: #999;
   text-decoration: line-through;

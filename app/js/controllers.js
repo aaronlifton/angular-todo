@@ -3,14 +3,30 @@
 /* Controllers */
 
 function TodoCtrl($scope) {
-  $scope.todos = [
+
+  $scope.todos = angular.fromJson(window.localStorage['todos']) || [
     {id: 1, text:'learn angular', done: true},
     {id: 2, text:'build an angular app', done: false}];
+
+  $scope.$watch('todosJson()', function(result) {
+    window.localStorage['todos'] = result;
+  });
+
+  $scope.todosJson = function() {
+    return angular.toJson($scope.todos)
+  }
 
   $scope.addTodo = function() {
     $scope.todos.push({id: Math.floor(Math.random()*1000), text:$scope.todoText, done:false});
     $scope.todoText = '';
   };
+
+  $scope.deleteTodo = function(todo) {
+    $scope.todos.push.apply($scope.todos.splice($scope.todos.indexOf(todo), $scope.todos.length));
+    if ($scope.todos.length == 0) {
+      $scope.playVictorySound()
+    }
+  }
 
   $scope.startEditing = function(todo) {
     todo.isEditing = true;

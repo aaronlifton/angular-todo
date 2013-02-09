@@ -26,7 +26,7 @@
     <div class="row">
       <div class="span6">    
         <form class="form-horizontal" ng-submit="addTodo()">
-          <input class="span5" type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+          <input class="span5" type="text" ng-model="todoText" size="30" placeholder="add new todo here, type to search">
           <input class="btn btn-primary" type="submit" value="add">
         </form>
       </div>
@@ -37,11 +37,12 @@
       </div>      
     </div>
     <ul class="unstyled">
-      <li ng-repeat="todo in todos">
+      <li ng-repeat="todo in todos | filter:todoText">
         <label ng-hide="todo.isEditing" for="todo-{{todo.id}}">
           <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
-          <span class="done-{{todo.done}}">{{todo.text}}</span>
+          <span class="done-{{todo.done}}">{{todo.text | containsHashTags}}</span>
           <a ng-click="startEditing(todo)" href="#">Edit</a>
+          <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
         </label>
         <label ng-show="todo.isEditing">
           <form class="form-search form-horizontal" ng-submit="stopEditing(todo)">          
