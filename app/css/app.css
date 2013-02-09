@@ -28,3 +28,11 @@ body {
   text-align: center;
   margin: 0 auto;
 }
+
+.todo-display {
+  font-size: 18px;
+}
+
+.todo-display .small {
+  font-size: 14px;
+}

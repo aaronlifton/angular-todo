@@ -38,12 +38,18 @@
     </div>
     <ul class="unstyled">
       <li ng-repeat="todo in todos | filter:todoText">
-        <label ng-hide="todo.isEditing" for="todo-{{todo.id}}">
+        <!-- Todo Display Mode -->
+        <label class="todo-display" ng-hide="todo.isEditing" for="todo-{{todo.id}}">
           <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
           <span class="done-{{todo.done}}" ng-bind-html-unsafe="todo.text | containsHashTags"></span>
-          <a ng-click="startEditing(todo)" href="#">Edit</a>
-          <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
+          <span class="small">          
+            <a ng-click="startEditing(todo)" href="#">Edit</a>
+            <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
+          </span>
         </label>
+        <!-- End Display Mode -->
+        
+        <!-- Todo Editing Mode -->
         <label ng-show="todo.isEditing">
           <form class="form-search form-horizontal" ng-submit="stopEditing(todo)">          
             <input disabled="disabled" id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
@@ -51,6 +57,7 @@
             <a href="#" class="btn" ng-click="stopEditing(todo)">Save</a>
           </form>
         </label>
+        <!-- End Editing Mode -->
       </li>
     </ul>
     <!-- Success Message -->
@@ -59,6 +66,7 @@
       <h1>INBOX ZERO!</h1>
       <h3 class="muted">You are awesome.</h3>
     </div>
+    <!-- End Success Message -->
   </div>
   <audio id="victorySound" src="audio/victory.mp3" type="audio/mmpeg" preload="true"></audio>
 </body>
