@@ -10,6 +10,14 @@ angular.module('myApp.filters', []).
   }]).
   filter('containsHashTags', function() {
     return function(text) {
-      return text
+      var tags   = text.match(/#[\w]*/g),
+          result = String(text);
+          
+      if (tags !== null) {
+        for (var i = 0; i < tags.length; i++) {
+          result = result.replace(new RegExp(tags[i]), "<span class='muted'>"+ tags[i] +"</span>");
+        }
+      }
+      return result;
     }
   });

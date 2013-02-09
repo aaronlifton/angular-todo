@@ -14,7 +14,7 @@ function TodoCtrl($scope) {
 
   $scope.todosJson = function() {
     return angular.toJson($scope.todos)
-  }
+  };
 
   $scope.addTodo = function() {
     $scope.todos.push({id: Math.floor(Math.random()*1000), text:$scope.todoText, done:false});
@@ -23,7 +23,7 @@ function TodoCtrl($scope) {
 
   $scope.deleteTodo = function(todo) {
     $scope.todos.push.apply($scope.todos.splice($scope.todos.indexOf(todo), $scope.todos.length));
-    if ($scope.todos.length == 0) {
+    if ($scope.todos.length === 0) {
       $scope.playVictorySound()
     }
   }
@@ -63,7 +63,6 @@ function TodoCtrl($scope) {
   $scope.playVictorySound = function() {
     var sound = document.getElementById("victorySound");
     if (window.chrome) sound.load();
-    // sound.currentTime = 0;
     sound.play()
   };
 }

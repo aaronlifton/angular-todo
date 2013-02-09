@@ -40,7 +40,7 @@
       <li ng-repeat="todo in todos | filter:todoText">
         <label ng-hide="todo.isEditing" for="todo-{{todo.id}}">
           <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
-          <span class="done-{{todo.done}}">{{todo.text | containsHashTags}}</span>
+          <span class="done-{{todo.done}}" ng-bind-html-unsafe="todo.text | containsHashTags"></span>
           <a ng-click="startEditing(todo)" href="#">Edit</a>
           <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
         </label>
