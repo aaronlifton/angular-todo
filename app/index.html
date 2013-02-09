@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>My AngularJS App</title>
   <link rel="stylesheet" href="css/app.css"/>
+  <link rel="stylesheet" href="css/bootstrap.css">
   <script src="lib/angular/angular.js"></script>
   <script src="js/app.js"></script>
   <script src="js/services.js"></script>
@@ -12,14 +13,28 @@
   <script src="js/directives.js"></script>
 </head>
 <body ng-controller="TodoCtrl">
-  
-  <h1>Todos</h1>
-  <ul>
-    <li ng-repeat="todo in todos">
-      <input type="checkbox" ng-model="todo.done" />
-      <span class="done-{{todo.done}}">{{todo.text}}</span>
-    </li>
-  </ul>
-  
+  <div class="container">  
+    <h1>Todos</h1>
+    <form class="form-horizontal" ng-submit="addTodo()">
+      <input type="text" ng-model="todoText"  size="30" placeholder="add new todo here">
+      <input class="btn btn-primary" type="submit" value="add">
+    </form>
+    <ul class="unstyled">
+      <li ng-repeat="todo in todos">
+        <label ng-hide="todo.isEditing" for="todo-{{todo.id}}">
+          <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
+          <span class="done-{{todo.done}}">{{todo.text}}</span>
+          <a ng-click="startEditing(todo)" href="#">Edit</a>
+        </label>
+        <label ng-show="todo.isEditing">
+          <form class="form-search form-horizontal" ng-submit="stopEditing(todo)">          
+            <input disabled="disabled" id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
+            <input type="text" ng-show="todo.isEditing" ng-model="todo.text" />
+            <a href="#" class="btn" ng-click="stopEditing(todo)">Save</a>
+          </form>
+        </label>
+      </li>
+    </ul>
+  </div>
 </body>
 </html>
