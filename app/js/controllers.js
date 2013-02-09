@@ -2,14 +2,15 @@
 
 /* Controllers */
 
-function TodoCtrl($scope) {
-
-  $scope.todos = angular.fromJson(window.localStorage['todos']) || [
+function TodoCtrl($scope, $routeParams) {
+  $scope.todoText = $routeParams.hashTag;
+  
+  $scope.todos = angular.fromJson(window.localStorage.todos) || [
     {id: 1, text:'learn angular', done: true},
     {id: 2, text:'build an angular app', done: false}];
 
   $scope.$watch('todosJson()', function(result) {
-    window.localStorage['todos'] = result;
+    window.localStorage.todos = result;
   });
 
   $scope.todosJson = function() {

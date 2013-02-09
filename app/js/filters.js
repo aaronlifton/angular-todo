@@ -8,6 +8,11 @@ angular.module('myApp.filters', []).
       return String(text).replace(/\%VERSION\%/mg, version);
     }
   }]).
+  /*
+   * Hash tag filter.
+   * Make sure you're using ngBindHtmlUnsafe.
+   * @example <span ng-bind-html-unsafe="text | containsHashTags"></span>
+   */
   filter('containsHashTags', function() {
     return function(text) {
       var tags   = text.match(/#[\w]*/g),
