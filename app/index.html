@@ -13,61 +13,66 @@
   <script src="js/directives.js"></script>
 </head>
 <body ng-controller="TodoCtrl">
-  <div class="container">  
+  <div class="container">
     <div class="row">
-      <div class="span4">
-        <h1>Todos</h1>
-      </div>
-      <div class="span8">
-        <p class="pull-right status"><span class="muted">Only {{remaining()}} of {{todos.length}} remaining!</span>
-        [ <a href="" ng-click="archive()">archive</a> ]</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="span6">    
-        <form class="form-horizontal" ng-submit="addTodo()">
-          <input class="span5" type="text" ng-model="todoText" size="30" placeholder="add new todo here, type to search">
-          <input class="btn btn-primary" type="submit" value="add">
-        </form>
-      </div>
-      <div class="span6">
-        <div class="progress progress-success progress-striped">
-          <div class="bar" style="width: {{(completed() / todos.length) * 100}}%;"></div>
+      <div class="span6 offset3">
+        <div class="row">
+          <div class="span2">
+            <h1>Todos</h1>
+          </div>
+          <div class="span4">
+            <div class="progress status progress-success progress-striped">
+              <div class="bar" style="width: {{(completed() / todos.length) * 100}}%;"></div>
+            </div>
+          </div>
         </div>
-      </div>      
+        <div class="row">
+          <div class="span6 minimize">    
+            <form class="form-horizontal" ng-submit="addTodo()">
+              <input class="add-todo" type="text" ng-model="todoText" size="30" placeholder="add new todo here, type to search">
+              <input class="btn btn-primary" type="submit" value="add">
+            </form>
+          </div>
+          <div class="span6 minimize">
+            <p class="pull-right"><span class="muted">Only {{remaining()}} of {{todos.length}} remaining!</span>
+            [ <a href="" ng-click="archive()">archive</a> ]</p>
+          </div>
+        </div>
+        <ul class="unstyled">
+          <li ng-repeat="todo in todos | filter:todoText">
+            <!-- Todo Display Mode -->
+            <label class="todo-display" ng-hide="todo.isEditing" for="todo-{{todo.id}}">
+              <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
+              <span class="done-{{todo.done}}" ng-bind-html-unsafe="todo.text | containsHashTags"></span>
+              <span class="small">          
+                <a ng-click="startEditing(todo)" href="#">Edit</a>
+                <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
+              </span>
+            </label>
+            <!-- End Display Mode -->
+            
+            <!-- Todo Editing Mode -->
+            <label ng-show="todo.isEditing">
+              <form class="form-search form-horizontal" ng-submit="stopEditing(todo)">          
+                <input disabled="disabled" id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
+                <input type="text" class="span10" ng-show="todo.isEditing" ng-model="todo.text" />
+                <a href="#" class="btn" ng-click="stopEditing(todo)">Save</a>
+              </form>
+            </label>
+            <!-- End Editing Mode -->
+          </li>
+        </ul>
+        <!-- Success Message -->
+        <div class="centered" ng-show="todos.length == 0">
+          <p><img src="img/hero.png" alt="Heroic picture"></p>
+          <h1>INBOX ZERO!</h1>
+          <h3 class="muted">You are awesome.</h3>
+        </div>
+        <!-- End Success Message -->
+      </div>
     </div>
-    <ul class="unstyled">
-      <li ng-repeat="todo in todos | filter:todoText">
-        <!-- Todo Display Mode -->
-        <label class="todo-display" ng-hide="todo.isEditing" for="todo-{{todo.id}}">
-          <input id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
-          <span class="done-{{todo.done}}" ng-bind-html-unsafe="todo.text | containsHashTags"></span>
-          <span class="small">          
-            <a ng-click="startEditing(todo)" href="#">Edit</a>
-            <a ng-click="deleteTodo(todo)" class="danger" href="#">x</a>
-          </span>
-        </label>
-        <!-- End Display Mode -->
-        
-        <!-- Todo Editing Mode -->
-        <label ng-show="todo.isEditing">
-          <form class="form-search form-horizontal" ng-submit="stopEditing(todo)">          
-            <input disabled="disabled" id="todo-{{todo.id}}" type="checkbox" ng-model="todo.done" />
-            <input type="text" class="span10" ng-show="todo.isEditing" ng-model="todo.text" />
-            <a href="#" class="btn" ng-click="stopEditing(todo)">Save</a>
-          </form>
-        </label>
-        <!-- End Editing Mode -->
-      </li>
-    </ul>
-    <!-- Success Message -->
-    <div class="centered" ng-show="todos.length == 0">
-      <p><img src="img/hero.png" alt="Heroic picture"></p>
-      <h1>INBOX ZERO!</h1>
-      <h3 class="muted">You are awesome.</h3>
-    </div>
-    <!-- End Success Message -->
   </div>
+    
   <audio id="victorySound" src="audio/victory.mp3" type="audio/mmpeg" preload="true"></audio>
 </body>
 </html>

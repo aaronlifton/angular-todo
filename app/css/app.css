@@ -12,9 +12,18 @@ body {
   background-repeat: repeat-x;
 }
 
+input.add-todo {
+  width: 392px;
+}
+
 .danger {
   color: #d35648;
 }
+
+.minimize {
+  height: 40px;
+}
+
 .done-true {
   color: #999;
   text-decoration: line-through;
