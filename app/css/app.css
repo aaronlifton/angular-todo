@@ -4,3 +4,12 @@
   color: #999;
   text-decoration: line-through;
 }
+
+.status {
+  margin-top: 20px;
+}
+
+.centered {
+  text-align: center;
+  margin: 0 auto;
+}

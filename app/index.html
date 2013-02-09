@@ -2,7 +2,7 @@
 <html lang="en" ng-app="myApp">
 <head>
   <meta charset="utf-8">
-  <title>My AngularJS App</title>
+  <title>Angular Todo</title>
   <link rel="stylesheet" href="css/app.css"/>
   <link rel="stylesheet" href="css/bootstrap.css">
   <script src="lib/angular/angular.js"></script>
@@ -14,11 +14,28 @@
 </head>
 <body ng-controller="TodoCtrl">
   <div class="container">  
-    <h1>Todos</h1>
-    <form class="form-horizontal" ng-submit="addTodo()">
-      <input type="text" ng-model="todoText"  size="30" placeholder="add new todo here">
-      <input class="btn btn-primary" type="submit" value="add">
-    </form>
+    <div class="row">
+      <div class="span4">
+        <h1>Todos</h1>
+      </div>
+      <div class="span8">
+        <p class="pull-right status"><span class="muted">Only {{remaining()}} of {{todos.length}} remaining!</span>
+        [ <a href="" ng-click="archive()">archive</a> ]</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="span6">    
+        <form class="form-horizontal" ng-submit="addTodo()">
+          <input class="span5" type="text" ng-model="todoText" size="30" placeholder="add new todo here">
+          <input class="btn btn-primary" type="submit" value="add">
+        </form>
+      </div>
+      <div class="span6">
+        <div class="progress progress-success progress-striped">
+          <div class="bar" style="width: {{(completed() / todos.length) * 100}}%;"></div>
+        </div>
+      </div>      
+    </div>
     <ul class="unstyled">
       <li ng-repeat="todo in todos">
         <label ng-hide="todo.isEditing" for="todo-{{todo.id}}">
@@ -35,6 +52,13 @@
         </label>
       </li>
     </ul>
+    <!-- Success Message -->
+    <div class="well centered" ng-show="todos.length == 0">
+      <p><img src="img/hero.png" alt="Heroic picture"></p>
+      <h1>INBOX ZERO!</h1>
+      <p>You are awesome.</p>
+    </div>
   </div>
+  <audio id="victorySound" src="audio/victory.mp3" type="audio/mmpeg"></audio>
 </body>
 </html>
