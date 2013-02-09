@@ -29,11 +29,7 @@ function TodoCtrl($scope) {
   };
 
   $scope.completed = function() {
-    var count = 0;
-    angular.forEach($scope.todos, function(todo) {
-      count += todo.done ? 1 : 0;
-    });
-    return count
+    return $scope.todos.length - $scope.remaining();
   };
  
   $scope.archive = function() {
@@ -51,6 +47,7 @@ function TodoCtrl($scope) {
   $scope.playVictorySound = function() {
     var sound = document.getElementById("victorySound");
     if (window.chrome) sound.load();
+    // sound.currentTime = 0;
     sound.play()
   };
 }
